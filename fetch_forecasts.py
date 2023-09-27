@@ -36,7 +36,7 @@ class ISWAget:
             self.reject = reject
         self.include = include
         self.exclude = exclude
-        self.flags = ['--mirror', '--no-parent', '--tries=360']
+        self.flags = ['--mirror', '--no-parent']
 
     def wget(self, flavor, yearmonth=None):
         cmd = ['wget'] + self.flags
