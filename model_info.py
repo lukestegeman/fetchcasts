@@ -50,3 +50,16 @@ inactive_flavors = {
               'v2_1/500MeV',
               'v2_1/50MeV']
 }
+
+accept = {
+    'MAG4':        ['MAG4_*.json'],
+    'SEPSTER':     ['sepster_*.json'],
+    'SEPSTER2D':   ['sepster2D_*.json'],
+    'UMASEP':      ['UMASEP*.json'],
+    'SEPMOD':      ['SEPMOD.{year}-{month}*.json',
+                    'SEPMOD.{year}-{month}*mev.txt',
+                    'SEPMOD.{year}{month}*_geo_integral_tseries_timestamped',
+                    'SEPMOD.{year}{month}*_geo_tseries_timestamped'],
+    'SWPC':        ['*RSGA.txt'],
+    'SAWS_ASPECS': ["SAWS_ASPECS*.json", "SAWS_ASPECS*.txt"]
+}

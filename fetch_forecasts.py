@@ -23,11 +23,14 @@ args = parser.parse_args()
 
 class ISWAget:
     def __init__(self, model, accept=None, reject=None,
-                 include=None, exclude=None):
+                 include=None, exclude=None, yearmonth_path=True):
         self.model = model
         self.root = model_info.model_root[model]
         if accept is None:
-            self.accept = [f"{model}*.json"]
+            if model in model_info.accept:
+                self.accept = model_info.accept[model]
+            else:
+                self.accept = [f"{model}*.json"]
         else:
             self.accept = accept
         if reject is None:
@@ -37,6 +40,7 @@ class ISWAget:
         self.include = include
         self.exclude = exclude
         self.flags = ['--mirror', '--no-parent']
+        self.yearmonth_path = yearmonth_path
 
     def wget(self, flavor, yearmonth=None):
         cmd = ['wget'] + self.flags
@@ -51,7 +55,10 @@ class ISWAget:
             yearmonth = current_yearmonth()
         # Build the path.  This code uses the fact that
         # '' means skip that level.  Multiple '' make one '/'
-        path = os.path.join(self.root, flavor, yearmonth, '')
+        if self.yearmonth_path:
+            path = os.path.join(self.root, flavor, yearmonth, '')
+        else:
+            path = os.path.join(self.root, flavor, '')
         cmd += [f"https://{path}"]
         if yearmonth:
             year, month = split_yearmonth(yearmonth)
@@ -83,6 +90,7 @@ accept = None
 reject = None
 include = None
 exclude = None
+kwargs = {}
 
 # Exceptions
 if args.model == 'SEPMOD':
@@ -92,10 +100,11 @@ if args.model == 'SEPMOD':
     # Subdirectories filed by year are in the top level,
     # so care must be taken to avoid traversing all of that
     # Profiles are stored as .txt files
-    accept = ['SEPMOD.{year}{month}*.json',
+    kwargs['yearmonth_path'] = False
+    accept = ['SEPMOD.{year}-{month}*.json',
               'SEPMOD.{year}-{month}*mev.txt',
-              '*_geo_integral_tseries_timestamped',
-              '*_geo_tseries_timestamped']
+              'SEPMOD.{year}{month}*_geo_integral_tseries_timestamped',
+              'SEPMOD.{year}{month}*_geo_tseries_timestamped']
     reject = '\?|ENLIL|data|output|plots'
     yearmonth = args.yearmonth
     current_yearmonth = current_yearmonth()
@@ -113,14 +122,10 @@ if args.model == 'SEPMOD':
         exclude = f'/{top}/20*'
     else:
         include = f'/{top}/{year}'
-elif args.model == 'SWPC':
-    accept = ['*RSGA.txt']
-elif args.model == 'SAWS_ASPECS':
-    # Include profiles stored as .txt files
-    accept = ["SAWS_ASPECS*.json", "SAWS_ASPECS*.txt"]
 
 if args.all:
     args.yearmonth = ''
+
 iswaget = ISWAget(args.model, accept=accept, reject=reject,
-                  include=include, exclude=exclude)
+                  include=include, exclude=exclude, **kwargs)
 iswaget.run(flavor=args.flavor, yearmonth=args.yearmonth, test=args.test)
