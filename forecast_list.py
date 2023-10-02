@@ -29,11 +29,12 @@ args = parser.parse_args()
 
 stats = {}
 
-exclude = {} # efficient lookups with "in"
+exclude = []
 if args.exclude:
     with open(args.exclude) as fh:
         for line in fh:
-            exclude[line.rstrip()] = True
+            exclude.append(line.rstrip())
+exclude = set(exclude) # change to set for efficient lookups
 
 print_files = True
 if args.print_stats:
