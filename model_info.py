@@ -2,7 +2,7 @@ from os.path import join
 
 default_root = 'iswa.gsfc.nasa.gov/iswa_data_tree/model/heliosphere/sep_scoreboard'
 models = ['MAG4', 'SEPSTER', 'SEPSTER2D', 'UMASEP', 'SEPMOD', 'SWPC', 
-          'SAWS_ASPECS']
+          'SAWS_ASPECS', 'iPATH']
 model_root = {
     'MAG4':      join(default_root, 'mag4_2019'),
     'SEPSTER':   join(default_root, 'SEPSTER'),
@@ -11,6 +11,7 @@ model_root = {
     'SEPMOD':    'iswa.ccmc.gsfc.nasa.gov/enlil2.9e',
     'SWPC'  :    'iswa.ccmc.gsfc.nasa.gov/iswa_data_tree/composite/coupled/noaa-swpc',
     'SAWS_ASPECS':    join(default_root, 'SAWS_ASPECS'),
+    'iPATH':     join(default_root, 'iPATH'),
 }
 flavors = {
     'MAG4':['HMI-NRT-JSON',
@@ -32,7 +33,17 @@ flavors = {
                    '1.X/Forecasts/Profile',
                    '1.X/Nowcasts/Intensity',
                    '1.X/Nowcasts/Probability',
-                   '1.X/Nowcasts/Profile']
+                   '1.X/Nowcasts/Profile'],
+    'iPATH':['2.X/CME/ZEUS/JSON',
+             '2.X/CME/ZEUS/10MeV',
+             '2.X/CME/ZEUS/30MeV',
+             '2.X/CME/ZEUS/50MeV',
+             '2.X/CME/ZEUS/100MeV',
+             '2.X/flare/ZEUS/JSON',
+             '2.X/flare/ZEUS/10MeV',
+             '2.X/flare/ZEUS/30MeV',
+             '2.X/flare/ZEUS/50MeV',
+             '2.X/flare/ZEUS/100MeV']
 }
 
 inactive_flavors = {
@@ -61,5 +72,6 @@ accept = {
                     'SEPMOD.{year}{month}*_geo_integral_tseries_timestamped',
                     'SEPMOD.{year}{month}*_geo_tseries_timestamped'],
     'SWPC':        ['*RSGA.txt'],
-    'SAWS_ASPECS': ["SAWS_ASPECS*.json", "SAWS_ASPECS*.txt"]
+    'SAWS_ASPECS': ["SAWS_ASPECS*.json", "SAWS_ASPECS*.txt"],
+    'iPATH':       ['ZEUS+iPATH_*.json', 'ZEUS+iPATH_*.txt']
 }
