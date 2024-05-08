@@ -1,8 +1,7 @@
 from os.path import join
 
 default_root = 'iswa.gsfc.nasa.gov/iswa_data_tree/model/heliosphere/sep_scoreboard'
-models = ['MAG4', 'SEPSTER', 'SEPSTER2D', 'UMASEP', 'SEPMOD', 'SWPC', 
-          'SAWS_ASPECS', 'iPATH']
+
 model_root = {
     'MAG4':      join(default_root, 'mag4_2019'),
     'MagPy':     join(default_root, 'MagPy'),
@@ -16,6 +15,8 @@ model_root = {
     'GSU':       join(default_root, 'GSU_All_Clear'),
     'SPRINTS':   join(default_root, 'SPRINTS-SEP')
 }
+
+models = sorted(model_root.keys())
 
 flavors = {
     'MAG4':['HMI-NRT-JSON',
