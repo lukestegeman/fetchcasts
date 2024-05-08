@@ -5,6 +5,7 @@ default_root = 'iswa.gsfc.nasa.gov/iswa_data_tree/model/heliosphere/sep_scoreboa
 model_root = {
     'MAG4':      join(default_root, 'mag4_2019'),
     'MagPy':     join(default_root, 'MagPy'),
+    'RELEASE':   join(default_root, 'RELEASE'),
     'SEPSTER':   join(default_root, 'SEPSTER'),
     'SEPSTER2D': join(default_root, 'SEPSTER2D'),
     'UMASEP':    join(default_root, 'UMASEP'),
@@ -25,6 +26,12 @@ flavors = {
             'VWF-HMI-NRT-JSON',
             'WF-HMI-NRT-JSON'],
     'MagPy':['2.X'],
+    'RELEASE':['30Min/aceepam',
+               '60Min/aceepam',
+               '90Min/aceepam',
+               '30Min/sohoephin',
+               '60Min/sohoephin',
+               '90Min/sohoephin'],
     'SEPSTER':['Parker',
                'WSA-ENLIL'],
     'SEPSTER2D':['1.X'],
@@ -73,6 +80,7 @@ inactive_flavors = {
 accept = {
     'MAG4':        ['MAG4_*.json'],
     'MagPy':       ['MagPy-*.json'],
+    'RELEASE':     ['HESPERIA_REleASE_*.json'],
     'SEPSTER':     ['sepster_*.json'],
     'SEPSTER2D':   ['sepster2D_*.json'],
     'UMASEP':      ['UMASEP*.json'],
