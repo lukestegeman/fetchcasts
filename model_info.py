@@ -5,6 +5,7 @@ models = ['MAG4', 'SEPSTER', 'SEPSTER2D', 'UMASEP', 'SEPMOD', 'SWPC',
           'SAWS_ASPECS', 'iPATH']
 model_root = {
     'MAG4':      join(default_root, 'mag4_2019'),
+    'MagPy':     join(default_root, 'MagPy'),
     'SEPSTER':   join(default_root, 'SEPSTER'),
     'SEPSTER2D': join(default_root, 'SEPSTER2D'),
     'UMASEP':    join(default_root, 'UMASEP'),
@@ -22,6 +23,7 @@ flavors = {
             'VPLUS-HMI-NRT-JSON',
             'VWF-HMI-NRT-JSON',
             'WF-HMI-NRT-JSON'],
+    'MagPy':['2.X'],
     'SEPSTER':['Parker',
                'WSA-ENLIL'],
     'SEPSTER2D':['1.X'],
@@ -69,6 +71,7 @@ inactive_flavors = {
 
 accept = {
     'MAG4':        ['MAG4_*.json'],
+    'MagPy':       ['MagPy-*.json'],
     'SEPSTER':     ['sepster_*.json'],
     'SEPSTER2D':   ['sepster2D_*.json'],
     'UMASEP':      ['UMASEP*.json'],
