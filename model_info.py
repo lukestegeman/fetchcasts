@@ -12,8 +12,10 @@ model_root = {
     'SWPC'  :    'iswa.ccmc.gsfc.nasa.gov/iswa_data_tree/composite/coupled/noaa-swpc',
     'SAWS_ASPECS':    join(default_root, 'SAWS_ASPECS'),
     'iPATH':     join(default_root, 'iPATH'),
-    'GSU':       join(default_root, 'GSU_All_Clear')
+    'GSU':       join(default_root, 'GSU_All_Clear'),
+    'SPRINTS':   join(default_root, 'SPRINTS-SEP')
 }
+
 flavors = {
     'MAG4':['HMI-NRT-JSON',
             'V-HMI-NRT-JSON',
@@ -45,7 +47,8 @@ flavors = {
              '2.X/flare/ZEUS/30MeV',
              '2.X/flare/ZEUS/50MeV',
              '2.X/flare/ZEUS/100MeV'],
-    'GSU':['v0_1']
+    'GSU':['v0_1'],
+    'SPRINTS':['1.X/Post_Eruptive']
 }
 
 inactive_flavors = {
@@ -76,5 +79,6 @@ accept = {
     'SWPC':        ['*RSGA.txt'],
     'SAWS_ASPECS': ["SAWS_ASPECS*.json", "SAWS_ASPECS*.txt"],
     'iPATH':       ['ZEUS+iPATH_*.json', 'ZEUS+iPATH_*.txt'],
-    'GSU':         ['GSU_All_Clear.*.json']
+    'GSU':         ['GSU_All_Clear.*.json'],
+    'SPRINTS':     ['SPRINTS_Post_Eruptive_*.json']
 }
