@@ -3,6 +3,7 @@ import sys
 import os.path
 import pickle
 import argparse
+import warnings
 
 import model_info
 import utils
@@ -71,7 +72,8 @@ for model in model_list:
         p = pathlib.Path(os.path.join(model_info.model_root[model], flavor))
         stats[(model, flavor)] = 0
         if not p.is_dir():
-            raise Exception(p, "does not exist")
+            warnings.warn(str(p) + " does not exist")
+            continue
 
         for year, month in utils.yearmonth_iter(args.start, args.end):
             yearmonth = f"{year:04d}/{month:02d}"
