@@ -12,6 +12,8 @@ parser = argparse.ArgumentParser(
     description='Generate lists of forecast jsons from ISWA data tree'
 )
 parser.add_argument('model', nargs='*', help='model forecasts list')
+parser.add_argument('-D', '--datatree', default=pathlib.Path.cwd(),
+                    help='Path to the ISWA data tree.  Default is current directory.')
 parser.add_argument('-f', '--flavor', default=None,
                     help='Specify model flavor. All known flavors fetched by default')
 parser.add_argument('--start', default='2019/01',
@@ -69,7 +71,7 @@ for model in model_list:
 
     # Iterate through selected flavors
     for flavor in sorted(flavors):
-        p = pathlib.Path(os.path.join(model_info.model_root[model], flavor))
+        p = pathlib.Path(os.path.join(args.datatree, model_info.model_root[model], flavor))
         stats[(model, flavor)] = 0
         if not p.is_dir():
             warnings.warn(str(p) + " does not exist")

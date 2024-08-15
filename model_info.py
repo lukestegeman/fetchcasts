@@ -1,6 +1,6 @@
 from os.path import join
 
-default_root = 'iswa.gsfc.nasa.gov/iswa_data_tree/model/heliosphere/sep_scoreboard'
+default_root = 'iswa_data_tree/model/heliosphere/sep_scoreboard'
 
 model_root = {
     'MAG4':      join(default_root, 'mag4_2019'),
@@ -9,8 +9,8 @@ model_root = {
     'SEPSTER':   join(default_root, 'SEPSTER'),
     'SEPSTER2D': join(default_root, 'SEPSTER2D'),
     'UMASEP':    join(default_root, 'UMASEP'),
-    'SEPMOD':    'iswa.ccmc.gsfc.nasa.gov/enlil2.9e',
-    'SWPC'  :    'iswa.ccmc.gsfc.nasa.gov/iswa_data_tree/composite/coupled/noaa-swpc',
+    'SEPMOD':    'enlil2.9e',
+    'SWPC'  :    'iswa_data_tree/composite/coupled/noaa-swpc',
     'SAWS_ASPECS':    join(default_root, 'SAWS_ASPECS'),
     'iPATH':     join(default_root, 'iPATH'),
     'GSU':       join(default_root, 'GSU_All_Clear'),
