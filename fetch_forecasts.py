@@ -42,7 +42,11 @@ class ISWAget:
         self.flags = ['--mirror', '--no-parent']
         self.yearmonth_path = yearmonth_path
 
-    def wget(self, flavor, yearmonth=None):
+
+
+#wget --mirror --no-parent -nH --cut-dirs=1000000000 -A archive_202401*.html -P test/ --reject-regex /? ftp://ftp.swpc.noaa.gov/pub/alerts/
+
+    def wget(self, flavor, yearmonth=None, ftp=False):
         cmd = ['wget'] + self.flags
         for a in self.accept:
             cmd += ["-A", a]
@@ -59,13 +63,28 @@ class ISWAget:
             path = os.path.join(self.root, flavor, yearmonth, '')
         else:
             path = os.path.join(self.root, flavor, '')
-        cmd += [f"https://{path}"]
+        if ftp:
+            insert = model_info.ftp_source.get(self.model).get(flavor)
+            cmd += ["ftp://" + insert]
+            cmd += ["-P", 'tmp']
+            cmd += ["--cut-dirs=1000", "-nH"]
+            cmd2 = ["source_dir='tmp'; dest_dir='" + model_info.model_root.get(self.model) + os.sep + flavor + "'; mkdir -p \"$dest_dir\"; find \"$source_dir\" -type f -name 'archive_[0-9][0-9][0-9][0-9][0-9][0-9]*.html' | while read -r file; do filename=$(basename \"$file\"); year_month=$(echo \"$filename\" | grep -oP 'archive_\\K[0-9]{6}'); year=$(echo $year_month | grep -o '^[0-9]\{4\}'); month=$(echo $year_month | grep -o '..$'); target_dir=\"$dest_dir/$year/$month\"; mkdir -p \"$target_dir\"; mv \"$file\" \"$target_dir/\"; done; rm -r \"$source_dir\";"]
+        else:
+            cmd += [f"https://{path}"]
+            cmd2 = None
+        print(yearmonth)
         if yearmonth:
             year, month = split_yearmonth(yearmonth)
             for i, c in enumerate(cmd):
                 if ('{' in c) and ('}' in c):
                     cmd[i] = c.format(year=year, month=month)
-        return cmd
+
+        if yearmonth == '' and ftp:
+            for i, c in enumerate(cmd):
+                if ('{' in c) and ('}' in c):
+                    cmd[i] = c.format(year='', month='')
+
+        return cmd, cmd2
 
     def run(self, flavor=None, yearmonth=None, test=False):
         if flavor is not None:
@@ -79,10 +98,23 @@ class ISWAget:
             flavors = ['']
 
         for flavor in flavors:
-            wget = self.wget(flavor, yearmonth=yearmonth)
+            # do any flavors come from an ftp source?
+            if model_info.ftp_source.get(self.model) is not None:
+                if model_info.ftp_source.get(self.model).get(flavor) is not None:
+                    ftp = True
+                else:
+                    ftp = False
+            else:
+                ftp = False
+
+            wget, wget2 = self.wget(flavor, yearmonth=yearmonth, ftp=ftp)
             print(*wget, flush=True) # get ahead of buffering
+            if wget2 is not None:
+                print(*wget2, flush=True)
             if not test:
-                subprocess.run(wget)
+                subprocess.run(wget, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                if wget2 is not None:
+                    subprocess.run(wget2, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 # Defaults

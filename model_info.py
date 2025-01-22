@@ -1,6 +1,6 @@
 from os.path import join
 
-default_root = 'iswa_data_tree/model/heliosphere/sep_scoreboard'
+default_root = 'iswa.ccmc.gsfc.nasa.gov/iswa_data_tree/model/heliosphere/sep_scoreboard'
 
 model_root = {
     'MAG4':      join(default_root, 'mag4_2019'),
@@ -10,7 +10,7 @@ model_root = {
     'SEPSTER2D': join(default_root, 'SEPSTER2D'),
     'UMASEP':    join(default_root, 'UMASEP'),
     'SEPMOD':    'enlil2.9e',
-    'SWPC'  :    'iswa_data_tree/composite/coupled/noaa-swpc',
+    'SWPC'  :    'iswa.ccmc.gsfc.nasa.gov/iswa_data_tree/composite/coupled/noaa-swpc',
     'SAWS_ASPECS':    join(default_root, 'SAWS_ASPECS'),
     'iPATH':     join(default_root, 'iPATH'),
     'GSU':       join(default_root, 'GSU_All_Clear'),
@@ -40,7 +40,8 @@ flavors = {
               'v3_X/30MeV',
               'v3_X/500MeV',
               'v3_X/50MeV'],
-    'SWPC':['RSGA'],
+    'SWPC':['RSGA',
+            'Warning'],
     'SAWS_ASPECS':['1.X/Forecasts/Intensity',
                    '1.X/Forecasts/Probability',
                    '1.X/Forecasts/Profile',
@@ -77,6 +78,11 @@ inactive_flavors = {
               'v2_1/50MeV']
 }
 
+ftp_source = {'SWPC' : {
+                      'Warning' : 'ftp.swpc.noaa.gov/pub/alerts/'
+                     }
+           }
+
 accept = {
     'MAG4':        ['MAG4_*.json'],
     'MagPy':       ['MagPy-*.json'],
@@ -88,7 +94,8 @@ accept = {
                     'SEPMOD.{year}-{month}*mev.txt',
                     'SEPMOD.{year}{month}*_geo_integral_tseries_timestamped',
                     'SEPMOD.{year}{month}*_geo_tseries_timestamped'],
-    'SWPC':        ['*RSGA.txt'],
+    'SWPC':        ['*RSGA.txt',
+                    'archive_{year}{month}*.html'],
     'SAWS_ASPECS': ["SAWS_ASPECS*.json", "SAWS_ASPECS*.txt"],
     'iPATH':       ['ZEUS+iPATH_*.json', 'ZEUS+iPATH_*.txt'],
     'GSU':         ['GSU_All_Clear.*.json'],
