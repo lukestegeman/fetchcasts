@@ -330,6 +330,9 @@ def InitParser(desc):
     parser.add_argument('--pi-ongoing-events-energy-min', nargs='*', action='append', help='If an ongoing event triggers your forecast, this is the min of energy channel range in MeV. (Optional, required if pi-ongoing-events-start-time used)')
     parser.add_argument('--pi-ongoing-events-energy-max', nargs='*', action='append', help='If an ongoing event triggers your forecast, this is the max of energy channel range in MeV. -1 represents an unbounded integral channel. (Optional, required if pi-ongoing-events-start-time used)')
 
+    # optional Triggers/human_evaluation (>1 allowed)
+    parser.add_argument('--human-evaluation-last-data-time', action='append', help='Last data time timestamp that was used to create forecast')
+
     # optional model inputs: magnetic_connectivity 
     parser.add_argument('--magcon-method', nargs='*', action='append', help='Provide if specific magnetic connectivity information was used to produce your forecast method string required, if magnetic_connectivity used. allowed values: Parker Spiral, PFSS-Parker Spiral, WSA, WSA-ENLIL, ADAPT-WSA-ENLIL (contact us to add your method to this format). (Optional, required if magnetic_connectivity was used)')
     parser.add_argument('--magcon-lat', nargs='*', action='append', help='Provide if specific magnetic connectivity information was used to produce your forecast method string required, if magnetic_connectivity used. Latitude (deg) position of magnetic field line footpoint linking the observing spacecraft to the Sun (in Stonyhurst coordinates).  (Optional)')
@@ -518,7 +521,7 @@ def ParseArguments(parser, useargs=None):
                 """)
                 sys.exit()
     d = vars(args)
-    argsL = ['model_short_name', 'spase_id', 'issue_time', 'mode', 'cme_start_time', 'cme_liftoff_time', 'cme_lat', 'cme_lon', 'cme_pa', 'cme_half_width', 'cme_speed', 'cme_acceleration', 'cme_height', 'cme_time_at_height_time', 'cme_time_at_height_height', 'cme_coordinates', 'cme_catalog', 'cme_catalog_id', 'cme_urls', 'flare_last_data_time', 'flare_start_time', 'flare_peak_time', 'flare_end_time', 'flare_location', 'flare_intensity', 'flare_integrated_intensity', 'flare_noaa_region', 'flare_urls', 'cme_sim_model', 'cme_sim_completion_time', 'cme_sim_urls', 'pi_observatory', 'pi_instrument', 'pi_last_data_time', 'pi_ongoing_events_start_time', 'pi_ongoing_events_threshold', 'pi_ongoing_events_energy_min', 'pi_ongoing_events_energy_max', 'magcon_method', 'magcon_lat', 'magcon_lon', 'magcon_angle_great_circle', 'magcon_angle_lat', 'magcon_angle_lon', 'magcon_solar_wind_observatory', 'magcon_solar_wind_speed', 'magnetogram_observatory', 'magnetogram_instrument', 'magnetogram_product', 'magnetogram_product_last_data_time', 'energy_min', 'energy_max', 'energy_units', 'species', 'location', 'prediction_window', 'peak_intensity', 'peak_intensity', 'peak_intensity_units', 'peak_intensity_uncertainty', 'peak_intensity_uncertainty_low', 'peak_intensity_uncertainty_high', 'peak_intensity_time', 'peak_intensity_esp', 'peak_intensity_esp_units', 'peak_intensity_esp_uncertainty', 'peak_intensity_esp_uncertainty_low', 'peak_intensity_esp_uncertainty_high', 'peak_intensity_esp_time', 'peak_intensity_max', 'peak_intensity_max_units', 'peak_intensity_max_uncertainty', 'peak_intensity_max_uncertainty_low', 'peak_intensity_max_uncertainty_high', 'peak_intensity_max_time', 'fluences', 'fluence_units', 'fluence_uncertainty_low', 'fluence_uncertainty_high', 'event_length_start_times', 'event_length_end_times', 'event_length_thresholds', 'event_length_threshold_units', 'thresh_crossing_times', 'thresh_uncertainties', 'crossing_thresholds', 'crossing_threshold_units', 'probabilities', 'prob_uncertainties', 'prob_thresholds', 'prob_threshold_units', 'all_clear', 'all_clear_threshold', 'all_clear_threshold_units', 'all_clear_probability_threshold', 'sep_profile', 'native_id']
+    argsL = ['model_short_name', 'spase_id', 'issue_time', 'mode', 'cme_start_time', 'cme_liftoff_time', 'cme_lat', 'cme_lon', 'cme_pa', 'cme_half_width', 'cme_speed', 'cme_acceleration', 'cme_height', 'cme_time_at_height_time', 'cme_time_at_height_height', 'cme_coordinates', 'cme_catalog', 'cme_catalog_id', 'cme_urls', 'flare_last_data_time', 'flare_start_time', 'flare_peak_time', 'flare_end_time', 'flare_location', 'flare_intensity', 'flare_integrated_intensity', 'flare_noaa_region', 'flare_urls', 'cme_sim_model', 'cme_sim_completion_time', 'cme_sim_urls', 'pi_observatory', 'pi_instrument', 'pi_last_data_time', 'pi_ongoing_events_start_time', 'pi_ongoing_events_threshold', 'pi_ongoing_events_energy_min', 'pi_ongoing_events_energy_max', 'human_evaluation_last_data_time', 'magcon_method', 'magcon_lat', 'magcon_lon', 'magcon_angle_great_circle', 'magcon_angle_lat', 'magcon_angle_lon', 'magcon_solar_wind_observatory', 'magcon_solar_wind_speed', 'magnetogram_observatory', 'magnetogram_instrument', 'magnetogram_product', 'magnetogram_product_last_data_time', 'energy_min', 'energy_max', 'energy_units', 'species', 'location', 'prediction_window', 'peak_intensity', 'peak_intensity', 'peak_intensity_units', 'peak_intensity_uncertainty', 'peak_intensity_uncertainty_low', 'peak_intensity_uncertainty_high', 'peak_intensity_time', 'peak_intensity_esp', 'peak_intensity_esp_units', 'peak_intensity_esp_uncertainty', 'peak_intensity_esp_uncertainty_low', 'peak_intensity_esp_uncertainty_high', 'peak_intensity_esp_time', 'peak_intensity_max', 'peak_intensity_max_units', 'peak_intensity_max_uncertainty', 'peak_intensity_max_uncertainty_low', 'peak_intensity_max_uncertainty_high', 'peak_intensity_max_time', 'fluences', 'fluence_units', 'fluence_uncertainty_low', 'fluence_uncertainty_high', 'event_length_start_times', 'event_length_end_times', 'event_length_thresholds', 'event_length_threshold_units', 'thresh_crossing_times', 'thresh_uncertainties', 'crossing_thresholds', 'crossing_threshold_units', 'probabilities', 'prob_uncertainties', 'prob_thresholds', 'prob_threshold_units', 'all_clear', 'all_clear_threshold', 'all_clear_threshold_units', 'all_clear_probability_threshold', 'sep_profile', 'native_id']
     noneList = [None, 'None', 'none', ['none'], ['None'], [None]] # NOTE: 0 is not included because it is valid/needed in many fields
     dataDict = collections.OrderedDict()
     checkedL = []
@@ -674,6 +677,29 @@ def ParseArguments(parser, useargs=None):
                     if 'triggers' in dataDict.keys():
                         dataDict['triggers'].append({'particle_intensity':tD})
                     else: dataDict['triggers'] = [{'particle_intensity':tD}]
+            elif a == 'human_evaluation_last_data_time' and a in d.keys(): # this is not a required arg 
+                # there can be more than one cme set.
+                # each arg defined with nargs and append is a list of lists
+                co = len('human_evaluation_') # chop_off (how much of the arg name to chop off to convert it to a key in dataDict
+                got_argL = []
+                for aa in ('human_evaluation_last_data_time'):
+                    if aa in d.keys() and d[aa] not in noneList: got_argL.append(aa)
+                # handle 'required' args, which is 'human_evaluation_last_data_time'
+                for aa in ['human_evaluation_last_data_time']:
+                    DontAllowNoneValues(d[aa], aa, d)
+                list_length = len(d['human_evaluation_last_data_time'])
+                #print('initial length of human_evaluation_last_data_time arg is {}'.format(list_length))
+                for aa in got_argL:
+                    if d[aa] not in noneList and len(d[aa]) != list_length:
+                        ThrowArgError('mismatch on the number of values given for \'human_evaluation_last_data_time\' and \'{}\''.format(aa), d)
+                for i in range(0, len(d['human_evaluation_last_data_time'])):
+                    tD = collections.OrderedDict() # temp dictionary
+                    for aa in got_argL:
+                        if d[aa][i] not in noneList:
+                            tD[aa[co:]] = d[aa][i]
+                    if 'triggers' in dataDict.keys():
+                        dataDict['triggers'].append({'human_evaluation':tD})
+                    else: dataDict['triggers'] = [{'human_evaluation':tD}]
             elif a == 'magcon_method': # it's optional # here is the start of a magnetic connection model input 
                 # there can be more than one magnetic_connectivity set.
                 # each arg is a list of lists
@@ -3136,6 +3162,7 @@ if __name__ == '__main__':
 # 2021.08.24,JTJones: Allow 'simulated_realtime_nowcast' in submission.mode field
 # 2022.08.29,JTJones: Added a new InitLogger.  The original InitLogger was renamed to InitLoggerOld
 # 2022.12.08,JTJones: <PLANNED> The keep numerical values (floats, integers) from being put in quotation marks.
-# 
+# 2025.01.19,LAStegeman: Added human_evaluation trigger.
+#
 #### END OF MODIFICATIONS  ## #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### ####
 
